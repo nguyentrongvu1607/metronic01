@@ -14,9 +14,7 @@ mongoose.connect(mongoDB,{useNewUrlParser:true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'MongoDB connection error:'));
 db.on('error', console.error.bind(console,'connection error:'));
-db.once('open', function(){
-  console.log('db opened')
-});
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -55,17 +53,20 @@ app.use(passport.session());
 //     }
 //   });
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth', auth);
-app.use('/user', passport.authenticate('jwt', {session: false}), user);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-
+db.once('open', function(){
+  console.log('db opened')
+  app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/auth', auth);
+app.use('/user', passport.authenticate('jwt', {session: false}), user);
+});
 
 
 // error handler

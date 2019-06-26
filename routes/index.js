@@ -5,7 +5,9 @@ var UserModel = require('../db/user');
 
 
 router.get('/create_user', (req,res) =>{
-  UserModel.create({username:"nguyena@gmail.com",password:"123123"}).then().catch(function(err){
+  UserModel.create({username:"nguyena@gmail.com",password:"123123"}).then(
+    res.send('ok created')
+  ).catch(function(err){
       res.send(err)
   })
    
