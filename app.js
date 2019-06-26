@@ -9,7 +9,7 @@ require('./passport')(passport);
 var bearerToken = require('express-bearer-token');
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://vutrong123:subin123@cluster0-0dhe1.mongodb.net/test?retryWrites=true&w=majority';
+var mongoDB = 'mongodb://localhost:27017/metronic';
 mongoose.connect(mongoDB,{useNewUrlParser:true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'MongoDB connection error:'));
