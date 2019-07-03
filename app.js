@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var passport = require('passport');
+var passportfb = require('passport');
 require('./passport')(passport);
+require('./passportfb')(passportfb)
 var bearerToken = require('express-bearer-token');
 
 var mongoose = require('mongoose');
@@ -59,6 +61,13 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', auth);
 app.use('/user', passport.authenticate('jwt', {session: false}), user);
+app.get('/authfb/facebook', passportfb.authenticate('facebook', {scope: ['email']}));
+app.get('/authfb/facebook/callback',
+        passportfb.authenticate('facebook', {
+            successRedirect: '/profile',
+            failureRedirect: '/'
+        })
+    );
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

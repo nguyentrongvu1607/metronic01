@@ -195,7 +195,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--begin::Options-->
 								<div class="kt-login__options">
 	
-									<a href="#" class="btn btn-primary kt-btn ">
+									<a href="authfb/facebook" class="btn btn-primary kt-btn ">
 									
 										<i class="fab fa-facebook-f"></i>
 										
@@ -281,7 +281,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					console.log(data.user);
 					$.post('/create_login',{makh:data.user._id,token:data.token}).then(data=>{
 					  console.log(data)
-					  window.location.href ="http://localhost:3000/CV";
+							window.location.href ="http://localhost:3000/login1"
 	
 					})
 				  })
