@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
+<<<<<<< HEAD
 <script src="/javascripts/jquery/jquery-3.4.1.js"></script>
 <script lang="javascript" src="/javascripts/FileSaver.min.js"></script>
 <script lang="javascript" src="/javascripts/xlsx.full.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 <script src="/javascripts/jquery.cookie.js"></script>
+=======
+    <script src="/javascripts/jquery/jquery-3.4.1.js"></script>
+    <script lang="javascript" src="/javascripts/FileSaver.min.js"></script>
+    <script lang="javascript" src="/javascripts/xlsx.full.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+>>>>>>> 2bf03eda70981da537ef3f6c54052dc5538f3dfe
 </head>
-<body>
 
- 
-<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
- <a href="/authfb/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
-
+<<<<<<< HEAD
 
 
 </body>
 
 </html>
+=======
+<body>
+	<% if(user) {%>
+		<% user.forEach(function(user){%>
+			<%=	user %>
+			<% }) %>
+			<% } %>
+        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+        <a href="/authfb/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+</body>
+
+</html>
+>>>>>>> 2bf03eda70981da537ef3f6c54052dc5538f3dfe

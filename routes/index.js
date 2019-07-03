@@ -4,6 +4,7 @@ var LoginModel = require('../db/login');
 var UserModel = require('../db/user');
 
 
+<<<<<<< HEAD
 // router.get('/create_user', (req,res) =>{
 //   UserModel.create({username:"nguyenb@gmail.com",password:"123123"}).then(
 //     res.send('ok created')
@@ -64,15 +65,125 @@ router.get('/login1', function(req, res, next) {
 router.get('/CV', loggedin, function(req, res, next) {
 
   res.render('CV');
+=======
+router.get('/create_user', (req, res) => {
+        UserModel.create({ username: "nguyenb@gmail.com", password: "123123" }).then(
+            res.send('ok created')
+        ).catch(function(err) {
+            res.send(err)
+        })
+
+
+    })
+    /* GET home page. */
+
+var loggedin = function(req, res, next) {
+
+    if (req.cookies.token) {
+
+        LoginModel.findOne({ Token: req.cookies.token }).then((user) => {
+            if (!user) {
+                res.redirect('/login1')
+            }
+            next();
+        })
+    } else {
+        res.redirect('/login1');
+    }
+}
+
+router.get('/profile', loggedin, function(req, res, next) {
+    UserModel.find({}).then(data => {
+        res.render('profile', { data: data });
+    });
 });
 
-router.post('/create_login',(req,res)=>{
-  LoginModel.create({makh:req.body.makh,Token:req.body.token}).then(data=>{
-    res.json(data);
-  })
+router.post('/profile', function(req, res) {
+    LoginModel.findOne({ Token: req.body.token }).then(data => {
+        res.json(data);
+    })
+});
+
+// router.get('/search', (req, res) => {
+//     UserModel.find({ TenKH: "%'u'%" }).then(user => { res.render('index', user) })
+// })
+
+router.post('/edit_user', (req, res) => {
+    UserModel.findOneAndUpdate({ _id: req.body._id }, {
+        $set: {
+            Ho: req.body.Ho,
+            TenKH: req.body.TenKH,
+            Tuoi: req.body.Tuoi,
+            TenCongTy: req.body.TenCongTy,
+            Sdt: req.body.Sdt,
+            Email: req.body.Email,
+            DiaChi: req.body.DiaChi,
+            NgheNghiep: req.body.NgheNghiep
+        }
+    }).then(data => { res.json(data) })
+})
+
+router.get('/login1', function(req, res, next) {
+    res.render('login1', { title: 'Express' });
+});
+
+router.get('/register', function(req, res, next) {
+    res.render('register');
+});
+
+router.post('/register', function(req, res) {
+    UserModel.findOne({ username: req.body.username }).then(username => {
+        if (username != null) {
+            res.json({ success: 0, data: 'Tên bị trùng' })
+        } else {
+            UserModel.create({
+                username: req.body.username,
+                password: req.body.password,
+                Ho: req.body.ho,
+                TenKH: req.body.ten,
+                Tuoi: req.body.tuoi,
+                NgheNghiep: req.body.nghenghiep,
+                TenCongTy: req.body.tencongty,
+                Sdt: req.body.sdt,
+                Email: req.body.email,
+                DiaChi: req.body.diachi
+            }).then(user => {
+                res.json({ success: 1, data: user })
+            });
+        }
+    });
+});
+
+router.get('/CV', loggedin, function(req, res, next) {
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        UserModel.find({ NgheNghiep: regex }, function(err, user) {
+            if (err) {
+                res.json({ success: 0, data: err });
+                return
+            }
+            res.render('showprofile', { data: user, user: req.user })
+        });
+    } else {
+        UserModel.find({}, function(err, user) {
+            if (err) {
+                res.json({ success: 0, data: err });
+                return
+            }
+            res.render('cv', { data: user, user: req.user })
+        });
+    }
+>>>>>>> 2bf03eda70981da537ef3f6c54052dc5538f3dfe
+});
+
+router.post('/create_login', (req, res) => {
+    LoginModel.create({ makh: req.body.makh, Token: req.body.token }).then(data => {
+        res.json(data);
+    })
 })
 
 
+<<<<<<< HEAD
 
 // router.post('/user_name', (req,res)=>{
 //   LoginModel.findOne({Token:req.body.token}).then(data=>{
@@ -87,12 +198,50 @@ router.post('/create_login',(req,res)=>{
 //     res.render('index',{user:user});
 //   })
 // })
-
-
-router.post('/sign_out',(req,res)=>{
-  LoginModel.findOneAndDelete({Token:req.body.token}).then(data=>{
-    res.json(data)
-  })
+=======
+router.get('/logout', function(req, res) {
+    req.logout()
+    res.send('/')
 })
+
+router.post('/user_name', (req, res) => {
+    LoginModel.findOne({ Token: req.body.token }).then(data => {
+        UserModel.findOne({ _id: data.makh }).then(user => {
+            res.json(user)
+        })
+    })
+});
+
+router.post('/sign_out', (req, res) => {
+    LoginModel.findOneAndDelete({ Token: req.body.token }).then(data => {
+        res.json(data)
+    })
+})
+>>>>>>> 2bf03eda70981da537ef3f6c54052dc5538f3dfe
+
+router.get('/showprofile', function(req, res, next) {
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        UserModel.find({ NgheNghiep: regex }, function(err, user) {
+            if (err) {
+                res.json({ success: 0, data: err });
+                return
+            }
+            res.render('showprofile', { data: user, user: req.user })
+        });
+    } else {
+        UserModel.find({}, function(err, user) {
+            if (err) {
+                res.json({ success: 0, data: err });
+                return
+            }
+            res.render('showprofile', { data: user, user: req.user })
+        });
+    }
+});
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;

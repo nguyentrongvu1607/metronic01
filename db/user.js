@@ -7,11 +7,16 @@ var user = new Schema({
   makh: Number,
   username: String,
   password: String,
+  Email : String,
+  Ho : String,
   TenKH: String,
+  TenCongTy : String,
   DiaChi: String,
   Sdt: String,
   Role: String,
-    Image: String
+  Image: String,
+  Tuoi: Number,
+  NgheNghiep: String
   
 });
 //Blog.create({ten:'abc'}).then(blog=>{
@@ -52,18 +57,23 @@ var PublicFields = [];
 
 class userModel extends Model
 { 
-    static Createuser ( username , password, TenKH, DiaChi, Sdt ,Role,Image ,callback)
+    static Createuser ( username , password, Email,Ho,TenKH, TenCongTy,DiaChi, Sdt ,Role,Image,Tuoi,NgheNghiep ,callback)
     {
         
         
         return userModel.create({
             username: username,
             password : password,
+            Email : Email,
             TenKH : TenKH,
+            Ho : Ho,
             DiaChi : DiaChi,
+            TenCongTy : TenCongTy,
             Sdt : Sdt,
             Role:Role,
-            Image: Image
+            Image: Image,
+            Tuoi : Tuoi,
+            NgheNghiep : NgheNghiep
 
         }, callback);
     }
