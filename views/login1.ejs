@@ -145,7 +145,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<!--begin::Head-->
 						<div class="kt-login__head">
 							<span class="kt-login__signup-label">Don't have an account yet?</span>&nbsp;&nbsp;
-							<a href="#" class="kt-link kt-login__signup-link">Sign Up!</a>
+							<a href="http://localhost:3000/register" class="kt-link kt-login__signup-link">Sign Up!</a>
 						</div>
 
 						<!--end::Head-->
@@ -162,7 +162,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--begin::Form-->
 								<form id="login" class="kt-form"  novalidate="novalidate">
 									<div class="form-group">
-										<input class="form-control" type="text" placeholder="Email" name="username" autocomplete="off">
+										<input class="form-control" type="text" placeholder="Tên đăng nhập" name="username" autocomplete="off">
 									</div>
 									<div class="form-group">
 										<input class="form-control" type="password" placeholder="Password" name="password">
@@ -282,7 +282,6 @@ License: You must have a valid license purchased only from themeforest(the above
 					$.post('/create_login',{makh:data.user._id,token:data.token}).then(data=>{
 					  console.log(data)
 					  window.location.href ="http://localhost:3000/CV";
-	
 					})
 				  })
 
