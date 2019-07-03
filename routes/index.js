@@ -4,68 +4,6 @@ var LoginModel = require('../db/login');
 var UserModel = require('../db/user');
 
 
-<<<<<<< HEAD
-// router.get('/create_user', (req,res) =>{
-//   UserModel.create({username:"nguyenb@gmail.com",password:"123123"}).then(
-//     res.send('ok created')
-//   ).catch(function(err){
-//       res.send(err)
-//   })
-   
-  
-// })
-/* GET home page. */
-
-
-var loggedin = function(req,res,next){
-  
-  if(req.cookies.token )
- {
-   
-   LoginModel.findOne({Token:req.cookies.token}).then((user)=>{
-     if(!user)
-     {
-       res.redirect('/login1')
-     }
-    next();
-   })
- }
- else
- {
-   res.redirect('/login1');
- }
-}
-
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-
-
-router.get('/login1', function(req, res, next) {
-  if(req.cookies.token )
-  {
-    
-    LoginModel.findOne({Token:req.cookies.token}).then((user)=>{
-      if(!user)
-      {
-        res.redirect('/login1')
-      }
-     res.redirect('/CV')
-    })
-  }
-  else
-  {
-    res.render('login1');
-  }
-
-});
-
-
-router.get('/CV', loggedin, function(req, res, next) {
-
-  res.render('CV');
-=======
 router.get('/create_user', (req, res) => {
         UserModel.create({ username: "nguyenb@gmail.com", password: "123123" }).then(
             res.send('ok created')
@@ -173,7 +111,6 @@ router.get('/CV', loggedin, function(req, res, next) {
             res.render('cv', { data: user, user: req.user })
         });
     }
->>>>>>> 2bf03eda70981da537ef3f6c54052dc5538f3dfe
 });
 
 router.post('/create_login', (req, res) => {
@@ -183,22 +120,6 @@ router.post('/create_login', (req, res) => {
 })
 
 
-<<<<<<< HEAD
-
-// router.post('/user_name', (req,res)=>{
-//   LoginModel.findOne({Token:req.body.token}).then(data=>{
-//     UserModel.findOne({_id:data.makh}).then(user=>{
-//       res.json(user)
-//     })
-//   })
-// });
-
-// router.get('/search', (req,res)=>{
-//   UserModel.find({username:{$regex:'nguyen'}}).then(user=>{
-//     res.render('index',{user:user});
-//   })
-// })
-=======
 router.get('/logout', function(req, res) {
     req.logout()
     res.send('/')
@@ -217,12 +138,11 @@ router.post('/sign_out', (req, res) => {
         res.json(data)
     })
 })
->>>>>>> 2bf03eda70981da537ef3f6c54052dc5538f3dfe
 
 router.get('/showprofile', function(req, res, next) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        UserModel.find({ NgheNghiep: regex }, function(err, user) {
+        UserModel.find({ username: regex, NgheNghiep: regex }, function(err, user) {
             if (err) {
                 res.json({ success: 0, data: err });
                 return
