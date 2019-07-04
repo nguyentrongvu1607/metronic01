@@ -3,17 +3,9 @@ var router = express.Router();
 var LoginModel = require('../db/login');
 var UserModel = require('../db/user');
 
-
-router.get('/create_user', (req, res) => {
-        UserModel.create({ username: "nguyenb@gmail.com", password: "123123" }).then(
-            res.send('ok created')
-        ).catch(function(err) {
-            res.send(err)
-        })
-
-
-    })
-    /* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
 
 var loggedin = function(req, res, next) {
 
@@ -30,6 +22,36 @@ var loggedin = function(req, res, next) {
     }
 }
 
+
+
+router.get('/login1', function(req, res, next) {
+  if(req.cookies.token )
+  {
+    
+    LoginModel.findOne({Token:req.cookies.token}).then((user)=>{
+      if(!user)
+      {
+        res.redirect('/login1')
+      }
+     res.redirect('/CV')
+    })
+  }
+  else
+  {
+    res.render('login1');
+  }
+
+});
+
+
+router.get('/CV', loggedin, function(req, res, next) {
+
+  res.render('CV');
+});
+
+
+
+
 router.get('/profile', loggedin, function(req, res, next) {
     UserModel.find({}).then(data => {
         res.render('profile', { data: data });
@@ -42,9 +64,7 @@ router.post('/profile', function(req, res) {
     })
 });
 
-// router.get('/search', (req, res) => {
-//     UserModel.find({ TenKH: "%'u'%" }).then(user => { res.render('index', user) })
-// })
+
 
 router.post('/edit_user', (req, res) => {
     UserModel.findOneAndUpdate({ _id: req.body._id }, {
@@ -111,6 +131,7 @@ router.get('/CV', loggedin, function(req, res, next) {
             res.render('cv', { data: user, user: req.user })
         });
     }
+
 });
 
 router.post('/create_login', (req, res) => {
@@ -118,7 +139,6 @@ router.post('/create_login', (req, res) => {
         res.json(data);
     })
 })
-
 
 router.get('/logout', function(req, res) {
     req.logout()
@@ -139,26 +159,35 @@ router.post('/sign_out', (req, res) => {
     })
 })
 
+
 router.get('/showprofile', function(req, res, next) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        UserModel.find({ username: regex, NgheNghiep: regex }, function(err, user) {
+        UserModel.find({ NgheNghiep: regex }, function(err, user) {
             if (err) {
                 res.json({ success: 0, data: err });
                 return
             }
-            res.render('showprofile', { data: user, user: req.user })
-        });
+            res.render('showprofile', {data:user});
+ 
+            
+        })
     } else {
         UserModel.find({}, function(err, user) {
             if (err) {
                 res.json({ success: 0, data: err });
                 return
             }
-            res.render('showprofile', { data: user, user: req.user })
+            res.render('showprofile',  {data:user})
         });
     }
 });
+
+// var fs = require('fs');
+// var ejs = require('ejs');
+// var compiled = ejs.compile(fs.readFileSync(__dirname + '/../views/test.ejs', 'utf8'));
+// var html = compiled({ title : 'EJS' });
+// console.log(html);
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");

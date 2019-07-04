@@ -1991,8 +1991,10 @@ License: You must have a valid license purchased only from themeforest(the above
 													</div>
 													<div class="kt-widget__info">
 														<a href="#" class="kt-widget__username">
-															<%= users.TenKH %>
+															<input id="name_user<%=users._id%>" hidden value="<%= users.TenKH %>">	<%= users.TenKH %>
 														</a>
+														<script src="./assets/vendors/general/jquery/dist/jquery.js" type="text/javascript"></script>
+														
 														<span class="kt-widget__desc">
 															Head of Development
 														</span>
@@ -2019,7 +2021,16 @@ License: You must have a valid license purchased only from themeforest(the above
 													</div>
 												</div>
 												<div class="kt-widget__footer">
-													<button type="button" class="btn btn-label-warning btn-lg btn-upper">write message</button>
+													<button data-target="#kt_chat_modal" data-toggle="modal" id="chat-user<%=users._id%>" type="button" class="btn btn-label-warning btn-lg btn-upper">write message</button>
+													
+													<script>
+															$('#chat-user<%=users._id%>').click(function(){
+																var name= $('#name_user<%=users._id%>').val()	
+																	$('.kt-chat__label').html('<a href="#" class="kt-chat__title">'+name+'</a>'+
+											'<span class="kt-chat__status"><span class="kt-badge kt-badge--dot kt-badge--success"></span> Active</span>')	
+															})	
+														
+														</script>
 												</div>
 											</div>
 										</div>
@@ -2653,14 +2664,11 @@ License: You must have a valid license purchased only from themeforest(the above
 				<div class="modal-content">
 					<div class="kt-chat">
 						<div class="kt-portlet kt-portlet--last">
-							<div class="kt-portlet__head">
+							<div id="name-mes" class="kt-portlet__head">
 								<div class="kt-chat__head ">
 									<div class="kt-chat__left">
 										<div class="kt-chat__label">
-											<a href="#" class="kt-chat__title">Jason Muller</a>
-											<span class="kt-chat__status">
-												<span class="kt-badge kt-badge--dot kt-badge--success"></span> Active
-											</span>
+											
 										</div>
 									</div>
 									<div class="kt-chat__right">
@@ -2728,7 +2736,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							</div>
 							<div class="kt-portlet__body">
 								<div class="kt-scroll kt-scroll--pull" data-height="410" data-mobile-height="300">
-									<div class="kt-chat__messages kt-chat__messages kt-chat__messages--modal">
+									<div  class="kt-chat__messages kt-chat__messages kt-chat__messages--modal">
 										<div class="kt-chat__message kt-bg-light-success">
 											<div class="kt-chat__user">
 												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
@@ -2741,97 +2749,15 @@ License: You must have a valid license purchased only from themeforest(the above
 												How likely are you to recommend our company<br> to your friends and family?
 											</div>
 										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">30 Seconds</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												Hey there, we’re just writing to let you know that you’ve<br> been subscribed to a repository on GitHub.
-											</div>
-										</div>
-										<div class="kt-chat__message kt-bg-light-success">
-											<div class="kt-chat__user">
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/100_12.jpg" alt="image">
-												</span>
-												<a href="#" class="kt-chat__username">Jason Muller</span></a>
-												<span class="kt-chat__datetime">30 Seconds</span>
-											</div>
-											<div class="kt-chat__text">
-												Ok, Understood!
-											</div>
-										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">Just Now</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												You’ll receive notifications for all issues, pull requests!
-											</div>
-										</div>
-										<div class="kt-chat__message kt-bg-light-success">
-											<div class="kt-chat__user">
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/100_12.jpg" alt="image">
-												</span>
-												<a href="#" class="kt-chat__username">Jason Muller</span></a>
-												<span class="kt-chat__datetime">2 Hours</span>
-											</div>
-											<div class="kt-chat__text">
-												You were automatically <b class="kt-font-brand">subscribed</b> <br>because you’ve been given access to the repository
-											</div>
-										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">30 Seconds</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												You can unwatch this repository immediately <br>by clicking here: <a href="#" class="kt-font-bold kt-link"></a>
-											</div>
-										</div>
-										<div class="kt-chat__message kt-bg-light-success">
-											<div class="kt-chat__user">
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/100_12.jpg" alt="image">
-												</span>
-												<a href="#" class="kt-chat__username">Jason Muller</span></a>
-												<span class="kt-chat__datetime">30 Seconds</span>
-											</div>
-											<div class="kt-chat__text">
-												Discover what students who viewed Learn <br>Figma - UI/UX Design Essential Training also viewed
-											</div>
-										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">Just Now</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												Most purchased Business courses during this sale!
-											</div>
-										</div>
+										
+					
 									</div>
 								</div>
 							</div>
 							<div class="kt-portlet__foot">
 								<div class="kt-chat__input">
 									<div class="kt-chat__editor">
-										<textarea placeholder="Type here..." style="height: 50px"></textarea>
+										<textarea id="textarea-chat" placeholder="Type here..." style="height: 50px"></textarea>
 									</div>
 									<div class="kt-chat__toolbar">
 										<div class="kt_chat__tools">
@@ -2840,7 +2766,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											<a href="#"><i class="flaticon2-photo-camera"></i></a>
 										</div>
 										<div class="kt_chat__actions">
-											<button type="button" class="btn btn-brand btn-md  btn-font-sm btn-upper btn-bold kt-chat__reply">reply</button>
+											<button id="reply-btn" type="button" class="btn btn-brand btn-md  btn-font-sm btn-upper btn-bold ">reply</button>
 										</div>
 									</div>
 								</div>
@@ -2946,7 +2872,32 @@ License: You must have a valid license purchased only from themeforest(the above
 
 		<!--begin::Global Theme Bundle(used by all pages) -->
 		<script src="./assets/js/demo1/scripts.bundle.js" type="text/javascript"></script>
-
+		<script src="/javascripts/ejs.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>var socket = io('http://localhost:3000/');</script>
+		<script>
+		socket.on('sv-send-chat',chat=>{
+				console.log(chat)
+				$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
+		'<div class="kt-chat__user">'+
+		'<span class="kt-chat__datetime">30 Seconds</span>'+
+		'<a href="#" class="kt-chat__username">You</span></a>'+
+		'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+		'<img src="./assets/media/users/300_21.jpg" alt="image"></span>'+
+	'</div><div class="kt-chat__text">'
+		+chat+'</div></div>')
+		$('#textarea-chat').val("");
+		})
+		$('#reply-btn').click(function(){
+			socket.emit('client-send-chat',$('#textarea-chat').val());
+			
+			})
+			
+	</script>
+		
+		
+		
+		
 		<!--end::Global Theme Bundle -->
 	</body>
 

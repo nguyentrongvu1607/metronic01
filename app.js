@@ -9,6 +9,7 @@ var passportfb = require('passport');
 require('./passport')(passport);
 require('./passportfb')(passportfb)
 var bearerToken = require('express-bearer-token');
+var socket_io = require("socket.io");
 
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://localhost:27017/metronic';
@@ -26,6 +27,14 @@ var auth = require('./routes/auth')(passport);
 var user = require('./routes/user');
 
 var app = express();
+var io = socket_io();
+app.io = io;
+io.on('connection',(socket)=>{
+  console.log(socket.id)
+  socket.on('client-send-chat',chat=>{
+    socket.emit('sv-send-chat',chat)
+  })
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
