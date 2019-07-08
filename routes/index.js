@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 var LoginModel = require('../db/login');
 var UserModel = require('../db/user');
+var ConverModel = require('../db/conversation');
+var Conver_ContentModel = require('../db/conversation_content');
+
+// router.get('/create_conver', (req,res)=>{
+//     ConverModel.create({user1:"a",user2:"b"}).then(data=>{res.json(data)})
+// })
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -81,9 +87,7 @@ router.post('/edit_user', (req, res) => {
     }).then(data => { res.json(data) })
 })
 
-router.get('/login1', function(req, res, next) {
-    res.render('login1', { title: 'Express' });
-});
+
 
 router.get('/register', function(req, res, next) {
     res.render('register');
@@ -111,7 +115,7 @@ router.post('/register', function(req, res) {
         }
     });
 });
-
+// nói viễn coi lại
 router.get('/CV', loggedin, function(req, res, next) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
@@ -140,10 +144,6 @@ router.post('/create_login', (req, res) => {
     })
 })
 
-router.get('/logout', function(req, res) {
-    req.logout()
-    res.send('/')
-})
 
 router.post('/user_name', (req, res) => {
     LoginModel.findOne({ Token: req.body.token }).then(data => {
@@ -160,7 +160,7 @@ router.post('/sign_out', (req, res) => {
 })
 
 
-router.get('/showprofile', function(req, res, next) {
+router.get('/showprofile',loggedin, function(req, res, next) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         UserModel.find({ NgheNghiep: regex }, function(err, user) {
@@ -183,14 +183,63 @@ router.get('/showprofile', function(req, res, next) {
     }
 });
 
-// var fs = require('fs');
-// var ejs = require('ejs');
-// var compiled = ejs.compile(fs.readFileSync(__dirname + '/../views/test.ejs', 'utf8'));
-// var html = compiled({ title : 'EJS' });
-// console.log(html);
+
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+
+// create room chat
+
+router.post('/create_room_chat',(req,res)=>{
+    LoginModel.findOne({Token:req.body.token}).then(login=>{
+        UserModel.findOne({_id:login.makh}).then(user=>{
+            ConverModel.findOne({$or:[{user1:user.username,user2:req.body.user2},{user1:req.body.user2,user2:user.username}]}).then(data=>{
+                if(!data)
+                {
+                    ConverModel.create({user1:user.username,user2:req.body.user2}).then(data=>{
+                        // create room chat
+                        res.json(data)
+                    })
+                }
+                else
+                {
+                    // had a room chat
+                     res.json(data)
+                }
+             
+           
+            })
+           
+        })
+    })
+});
+
+// create content
+
+router.post('/create_content', (req,res)=>{
+    UserModel.findOne({username:req.body.username}).then(user=>{
+        Conver_ContentModel.create({makh:user._id,maconver:req.body.maconver,Content:req.body.content}).then(content=>{
+            res.json(content)
+        })
+    })
+});
+
+// get list content
+router.post('/get_content',(req,res)=>{
+    Conver_ContentModel.find({maconver:req.body.maconver}).then(list_content=>{
+            res.json(list_content)
+     
+    })
+})
+
+router.post('/your_content',(req,res)=>{
+    LoginModel.findOne({Token:req.body.token}).then(login=>{
+        UserModel.findOne({_id:login.makh}).then(user=>{
+            res.json({login:login,user:user})})
+        });
+        
+})
+
 
 module.exports = router;

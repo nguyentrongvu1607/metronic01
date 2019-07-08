@@ -276,9 +276,11 @@ License: You must have a valid license purchased only from themeforest(the above
 				$('#kt_login_signin_submit').click(function(){
 					$('#login').submit(function(e){
 					e.preventDefault();
+					// save token
 				  	$.post('/auth/login',$('#login').serialize()).then(data=>{
 					$.cookie('token', data.token);
 					console.log(data.user);
+					// create login_model
 					$.post('/create_login',{makh:data.user._id,token:data.token}).then(data=>{
 					  console.log(data)
 			window.location.href ="http://localhost:3000/login1"

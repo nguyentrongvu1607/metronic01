@@ -5567,29 +5567,9 @@ License: You must have a valid license purchased only from themeforest(the above
 		
 		<script src="/javascripts/jquery.cookie.js"></script>
 		<!-- info user -->
-		<script>
-			var token = $.cookie("token") ;
-					$.post('/user_name', {token:token}).then(data=>{
-						console.log(data)
-						$('#username').html(data.username);
-					})
-		</script>
+		
+		<script src="/javascripts/login_logout.js"></script>
 
-
-		<!--end::Page Scripts -->
-
-		<!-- Sign out -->
-
-		<script>
-			function signout()
-			{
-				$.post('/sign_out',{token:token}).then(deletedb=>{
-					console.log(deletedb);
-					window.location.href ="http://localhost:3000/login1";
-				})
-				$.removeCookie('token');
-			}
-		</script>
 	</body>
 
 	<!-- end::Body -->

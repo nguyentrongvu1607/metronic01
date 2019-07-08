@@ -32,7 +32,8 @@ app.io = io;
 io.on('connection',(socket)=>{
   console.log(socket.id)
   socket.on('client-send-chat',chat=>{
-    socket.emit('sv-send-chat',chat)
+    socket.emit('sv-send-chat-of-me',chat)
+    socket.broadcast.emit('sv-send-chat-to-you',chat);
   })
 })
 
