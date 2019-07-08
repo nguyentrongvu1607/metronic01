@@ -2036,23 +2036,26 @@ License: You must have a valid license purchased only from themeforest(the above
 																$.post('/create_room_chat', {token:token,user2:user2}).then(data=>{
 																		console.log(data);
 																	$('#reply-btn').click(function(){
-																
-																		$.post('/create_content',{username:$('#username_user<%=users._id%>').val(),
-																							content:$('#textarea-chat').val(),maconver:data._id}).then(content=>{
-																								console.log(content)
-																							
+																			// post token to find username 
+																		$.post('/create_content',{token:token,
+																								content:$('#textarea-chat').val(),
+																								maconver:data._id}).then(content=>{
+																								console.log(content);
+																								
 																				})
+																				$('#textarea-chat').val("");
 																			});
-
+																			
 																	$.post('/get_content', {maconver:data._id,token:token} ).then(list_content=>{
 																				console.log(list_content);
 																				list_content.forEach(list_content => {
-																					$.post('/your_content',{token:token}).then(data=>{
-																						console.log(data.login)
-																						if(list_content.makh == data.login.makh)
+																					$.post('/your_content',{token:token}).then(login=>{
+																						console.log(login.makh._id);
+																						console.log(list_content.makh._id);
+																						if(list_content.makh._id == login.makh._id)
 																						{
 																							  // Writer
-																							  console.log(list_content)
+																							  
 																						$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
 																								'<div class="kt-chat__user">'+
 																								'<span class="kt-chat__datetime">30 Seconds</span>'+
@@ -2065,13 +2068,13 @@ License: You must have a valid license purchased only from themeforest(the above
 																						}
 																						else
 																						{
-																							// room
+																							// Room
 																						$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-bg-light-success">'+
 																								'<div class="kt-chat__user">'+
 																									'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
 																										'<img src="./assets/media/users/100_12.jpg" alt="image">'+
 																									'</span>'+
-																									'<a href="#" class="kt-chat__username">'+data.user.TenKH+'</span></a>'+
+																									'<a href="#" class="kt-chat__username">'+list_content.makh.TenKH+'</span></a>'+
 																									'<span class="kt-chat__datetime">2 Hours</span>'+
 																								'</div>'+
 																								'<div class="kt-chat__text">'

@@ -50,6 +50,8 @@ router.get('/login1', function(req, res, next) {
 });
 
 
+
+
 router.get('/CV', loggedin, function(req, res, next) {
 
   res.render('CV');
@@ -217,26 +219,26 @@ router.post('/create_room_chat',(req,res)=>{
 
 // create content
 
-router.post('/create_content', (req,res)=>{
-    UserModel.findOne({username:req.body.username}).then(user=>{
-        Conver_ContentModel.create({makh:user._id,maconver:req.body.maconver,Content:req.body.content}).then(content=>{
+router.post('/create_content', (req,res)=>{ 
+    LoginModel.findOne({Token:req.body.token}).populate('makh').then(user=>{
+        Conver_ContentModel.create({makh:user.makh._id,maconver:req.body.maconver,Content:req.body.content}).then(content=>{
             res.json(content)
         })
+     
     })
 });
 
 // get list content
 router.post('/get_content',(req,res)=>{
-    Conver_ContentModel.find({maconver:req.body.maconver}).then(list_content=>{
+    Conver_ContentModel.find({maconver:req.body.maconver}).populate('makh').then(list_content=>{
             res.json(list_content)
      
     })
 })
 
 router.post('/your_content',(req,res)=>{
-    LoginModel.findOne({Token:req.body.token}).then(login=>{
-        UserModel.findOne({_id:login.makh}).then(user=>{
-            res.json({login:login,user:user})})
+    LoginModel.findOne({Token:req.body.token}).populate('makh').then(login=>{
+       res.json(login)
         });
         
 })
