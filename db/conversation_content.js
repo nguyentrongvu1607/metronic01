@@ -9,6 +9,7 @@ var conver_content = new Schema({
 maconver: { type: Schema.Types.ObjectId, ref: ConverModel.modelName },
   makh: { type: Schema.Types.ObjectId, ref: UserModel.modelName },
   Content:String,
+  Time: Date
 });
 
 // conver_content.pre('save',function(next)
@@ -42,14 +43,15 @@ var PublicFields = [];
 
 class conver_contentModel extends Model
 { 
-    static Createconver_content ( maconver,makh,Content,callback)
+    static Createconver_content ( maconver,Time,makh,Content,callback)
     {
         
         
         return conver_contentModel.create({
          makh:makh,
          Content: Content,
-         maconver:maconver
+         maconver:maconver,
+         Time:Time
 
         }, callback);
     }

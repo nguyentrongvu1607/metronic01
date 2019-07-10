@@ -25,15 +25,16 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var auth = require('./routes/auth')(passport);
 var user = require('./routes/user');
-
+var moment = require('moment');
 var app = express();
 var io = socket_io();
 app.io = io;
 io.on('connection',(socket)=>{
   console.log(socket.id)
-  socket.on('client-send-chat',chat=>{
-    socket.emit('sv-send-chat-of-me',chat)
-    socket.broadcast.emit('sv-send-chat-to-you',chat);
+  socket.on('client-send-chat',(chat,now)=>{
+    var date_time = moment(now).fromNow();
+    socket.emit('sv-send-chat-of-me',chat, date_time)
+    socket.broadcast.emit('sv-send-chat-to-you',chat, date_time);
   })
 })
 
