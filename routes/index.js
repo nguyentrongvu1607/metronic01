@@ -210,7 +210,7 @@ router.post('/create_room_chat',(req,res)=>{
     })
 });
 
-// create content
+// condition to create a room chat
 
 router.post('/condition_create_room',(req,res)=>{
     LoginModel.findOne({Token:req.body.token}).populate('makh').then(user1=>{
@@ -218,6 +218,7 @@ router.post('/condition_create_room',(req,res)=>{
     })
 })
 
+    // create content
 router.post('/create_content', (req,res)=>{ 
     LoginModel.findOne({Token:req.body.token}).populate('makh').then(user=>{
         Conver_ContentModel.create({makh:user.makh._id,Time:req.body.now,maconver:req.body.maconver,Content:req.body.content}).then(content=>{
@@ -248,6 +249,73 @@ router.post('/time',(req,res)=>{
     var result = moment(date).fromNow();
     res.json({result, format})
 })
+
+// about socket
+
+// find name for socket
+router.post('/find_socket_name',(req,res)=>{
+    LoginModel.findOne({Token:req.body.token}).populate('makh').then(login=>{
+        res.json(login)
+    })
+})
+
+// create room chat socket
+router.post('/create_room_chat_socket',(req,res)=>{
+    LoginModel.findOne({Token:req.body.token}).then(login=>{
+        UserModel.findOne({_id:login.makh}).then(user=>{
+            ConverModel.findOne({$or:[{user1:user.username,user2:req.body.user2},{user1:req.body.user2,user2:user.username}]}).then(data=>{
+                if(!data)
+                {
+                    ConverModel.create({user1:user.username,user2:req.body.user2}).then(data=>{
+                        // create room chat
+                        res.json(data)
+                    })
+                }
+                else
+                {
+                    // had a room chat
+                     res.json(data)
+                }
+             
+           
+            })
+           
+        })
+    })
+});
+
+   // create content socket
+   router.post('/create_content_socket', (req,res)=>{ 
+    LoginModel.findOne({Token:req.body.token}).populate('makh').then(user=>{
+        Conver_ContentModel.create({makh:user.makh._id,Time:req.body.now,maconver:req.body.maconver,Content:req.body.content}).then(content=>{
+            res.json(content)
+        })
+     
+    })
+});
+
+// get list content socket
+router.post('/get_content_socket',(req,res)=>{
+    Conver_ContentModel.find({maconver:req.body.maconver}).populate('makh').then(list_content=>{
+            res.json(list_content)
+     
+    })
+})
+
+router.post('/your_content_socket',(req,res)=>{
+    LoginModel.findOne({Token:req.body.token}).populate('makh').then(login=>{
+       res.json(login)
+        });
+        
+})
+
+router.post('/find_user_chat',(req,res)=>{
+    LoginModel.findOne({Token:req.body.token}).populate('makh').then(login=>{
+        res.json(login);
+    })
+})
+
+
 
 
 module.exports = router;

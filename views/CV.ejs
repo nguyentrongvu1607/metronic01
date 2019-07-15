@@ -5261,10 +5261,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="kt-chat__head ">
 									<div class="kt-chat__left">
 										<div class="kt-chat__label">
-											<a href="#" class="kt-chat__title">Jason Muller</a>
-											<span class="kt-chat__status">
-												<span class="kt-badge kt-badge--dot kt-badge--success"></span> Active
-											</span>
+											
 										</div>
 									</div>
 									<div class="kt-chat__right">
@@ -5324,7 +5321,7 @@ License: You must have a valid license purchased only from themeforest(the above
 												<!--end::Nav-->
 											</div>
 										</div>
-										<button type="button" class="btn btn-clean btn-sm btn-icon" data-dismiss="modal">
+										<button id="clean-btn"  type="button" class="btn btn-clean btn-sm btn-icon" data-dismiss="modal">
 											<i class="flaticon2-cross"></i>
 										</button>
 									</div>
@@ -5333,109 +5330,14 @@ License: You must have a valid license purchased only from themeforest(the above
 							<div class="kt-portlet__body">
 								<div class="kt-scroll kt-scroll--pull" data-height="410" data-mobile-height="300">
 									<div class="kt-chat__messages kt-chat__messages kt-chat__messages--modal">
-										<div class="kt-chat__message kt-bg-light-success">
-											<div class="kt-chat__user">
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/100_12.jpg" alt="image">
-												</span>
-												<a href="#" class="kt-chat__username">Jason Muller</span></a>
-												<span class="kt-chat__datetime">2 Hours</span>
-											</div>
-											<div class="kt-chat__text">
-												How likely are you to recommend our company<br> to your friends and family?
-											</div>
-										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">30 Seconds</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												Hey there, we’re just writing to let you know that you’ve<br> been subscribed to a repository on GitHub.
-											</div>
-										</div>
-										<div class="kt-chat__message kt-bg-light-success">
-											<div class="kt-chat__user">
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/100_12.jpg" alt="image">
-												</span>
-												<a href="#" class="kt-chat__username">Jason Muller</span></a>
-												<span class="kt-chat__datetime">30 Seconds</span>
-											</div>
-											<div class="kt-chat__text">
-												Ok, Understood!
-											</div>
-										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">Just Now</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												You’ll receive notifications for all issues, pull requests!
-											</div>
-										</div>
-										<div class="kt-chat__message kt-bg-light-success">
-											<div class="kt-chat__user">
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/100_12.jpg" alt="image">
-												</span>
-												<a href="#" class="kt-chat__username">Jason Muller</span></a>
-												<span class="kt-chat__datetime">2 Hours</span>
-											</div>
-											<div class="kt-chat__text">
-												You were automatically <b class="kt-font-brand">subscribed</b> <br>because you’ve been given access to the repository
-											</div>
-										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">30 Seconds</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												You can unwatch this repository immediately <br>by clicking here: <a href="#" class="kt-font-bold kt-link"></a>
-											</div>
-										</div>
-										<div class="kt-chat__message kt-bg-light-success">
-											<div class="kt-chat__user">
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/100_12.jpg" alt="image">
-												</span>
-												<a href="#" class="kt-chat__username">Jason Muller</span></a>
-												<span class="kt-chat__datetime">30 Seconds</span>
-											</div>
-											<div class="kt-chat__text">
-												Discover what students who viewed Learn <br>Figma - UI/UX Design Essential Training also viewed
-											</div>
-										</div>
-										<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
-											<div class="kt-chat__user">
-												<span class="kt-chat__datetime">Just Now</span>
-												<a href="#" class="kt-chat__username">You</span></a>
-												<span class="kt-userpic kt-userpic--circle kt-userpic--sm">
-													<img src="./assets/media/users/300_21.jpg" alt="image">
-												</span>
-											</div>
-											<div class="kt-chat__text">
-												Most purchased Business courses during this sale!
-											</div>
-										</div>
+									
 									</div>
 								</div>
 							</div>
 							<div class="kt-portlet__foot">
 								<div class="kt-chat__input">
 									<div class="kt-chat__editor">
-										<textarea placeholder="Type here..." style="height: 50px"></textarea>
+										<textarea id="textarea-chat" placeholder="Type here..." style="height: 50px"></textarea>
 									</div>
 									<div class="kt-chat__toolbar">
 										<div class="kt_chat__tools">
@@ -5444,7 +5346,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											<a href="#"><i class="flaticon2-photo-camera"></i></a>
 										</div>
 										<div class="kt_chat__actions">
-											<button type="button" class="btn btn-brand btn-md  btn-font-sm btn-upper btn-bold kt-chat__reply">reply</button>
+											<button id="reply-btn" type="button" class="btn btn-brand btn-md  btn-font-sm btn-upper btn-bold ">reply</button>
 										</div>
 									</div>
 								</div>
@@ -5569,6 +5471,175 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- info user -->
 		
 		<script src="/javascripts/login_logout.js"></script>
+
+		<script src="/socket.io/socket.io.js"></script>
+	<script>var socket = io('http://localhost:3000/');</script>
+	<script>
+
+	
+
+		// writter
+	socket.on('sv-send-chat-of-me',(chat,date_time)=>{
+			console.log(chat)
+			$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
+	'<div class="kt-chat__user">'+
+	'<span class="kt-chat__datetime">'+date_time+'</span>'+
+	'<a href="#" class="kt-chat__username">You</span></a>'+
+	'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+	'<img src="./assets/media/users/300_21.jpg" alt="image"></span>'+
+'</div><div class="kt-chat__text">'
+	+chat+'</div></div><div style="clear:both;"></div>')
+	})
+
+		// room
+	socket.on('sv-send-chat-to-you',(chat,date_time, name_another_user,TenKH,user1)=>{
+		console.log(name_another_user);
+		$('#name_another_user').html("<input id='another_username' value="+user1+" >");
+		var token = $.cookie("token");
+
+		// condition to chat
+		$.post('/find_user_chat',{token:token}).then(login=>{
+			console.log(login.makh.username);
+			console.log(TenKH);
+			if(login.makh.username==name_another_user)
+			{
+			
+				
+					// Room
+					if($('#kt_chat_modal').is(":visible"))
+				{
+					$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-bg-light-success">'+
+										'<div class="kt-chat__user">'+
+											'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+												'<img src="./assets/media/users/100_12.jpg" alt="image">'+
+											'</span>'+
+											'<a href="#" class="kt-chat__username">'+login.makh.TenKH+'</span></a>'+
+											'<span class="kt-chat__datetime">'+date_time+'</span>'+
+										'</div>'+
+										'<div class="kt-chat__text">'
+											+chat+
+										'</div>'+
+									'</div><div style="clear:both;"></div>')
+
+				
+				
+				};
+
+				if($('#kt_chat_modal').is(":hidden"))
+				{
+
+				$('#clean-btn').click(function(){
+					$('.kt-bg-light-brand').remove();
+					$('.kt-bg-light-success').remove();
+					$('#kt_chat_modal').hide();
+				})
+					
+				$('#kt_chat_modal').show();
+					
+				// name another
+				$('.kt-chat__label').html('<a href="#" class="kt-chat__title">'+TenKH+'</a>'+
+				'<span class="kt-chat__status"><span class="kt-badge kt-badge--dot kt-badge--success"></span> Active</span>');
+
+					// create room
+				$.post('/create_room_chat_socket', {token:token,user2:user1}).then(data=>{
+				console.log(data);
+					$('#room_chat').html('<input id="id_room" value="'+data._id+'">')
+				
+					
+				
+					// get content
+				$.post('/get_content_socket', {maconver:data._id}).then(list_content=>{
+						console.log(list_content);
+							// return aray content 
+						list_content.forEach(list_content => {	
+
+							// moment to find time
+								var time = moment(list_content.Time).fromNow();
+							
+
+							$.post('/your_content_socket',{token:token}).then(login=>{
+
+								
+					
+
+								// check id to find your content
+
+								if(list_content.makh._id == login.makh._id)
+								{
+										// Writer
+										
+								$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
+										'<div class="kt-chat__user">'+
+										'<span class="kt-chat__datetime">'+time+'</span>'+
+										'<a href="#" class="kt-chat__username">You</span></a>'+
+										'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+										'<img src="./assets/media/users/300_21.jpg" alt="image"></span>'+
+										'</div><div class="kt-chat__text">'
+										+list_content.Content+'</div></div><div style="clear:both;"></div>')
+
+								}
+								else
+								{
+									// Room
+								$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-bg-light-success">'+
+										'<div class="kt-chat__user">'+
+											'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+												'<img src="./assets/media/users/100_12.jpg" alt="image">'+
+											'</span>'+
+											'<a href="#" class="kt-chat__username">'+list_content.makh.TenKH+'</span></a>'+
+											'<span class="kt-chat__datetime">'+time+'</span>'+
+										'</div>'+
+										'<div class="kt-chat__text">'
+											+list_content.Content+
+										'</div>'+
+									'</div><div style="clear:both;"></div>')
+								}
+							})
+						});
+							
+					});
+			
+				})
+				
+				}
+				
+			
+			
+				
+			}
+		})		
+	
+	})
+
+	$('#reply-btn').click(function(){
+			var chat = $('#textarea-chat').val();
+		// set date and push to socket
+			if(chat!=""){
+			var token = $.cookie("token") ;
+			$.post('/find_socket_name',{token:token}).then(login=>{
+				var now = new Date();
+			var name_another_user = $('#another_username').val() ;
+			socket.emit('client-send-chat',chat,now,name_another_user,login.makh.TenKH,login.makh.username);
+
+					
+			var id_room = $('#id_room').val()
+			console.log(id_room);
+			$.post('/create_content_socket',{token:token,
+								content:chat,
+								maconver:id_room, now:now}).then(content=>{console.log(content);});
+		
+
+			$('#textarea-chat').val("");
+			});
+
+			
+		
+			}
+		
+	});
+</script>
+<div hidden id="name_another_user"></div>
+<div hidden id="room_chat"></div>
 
 	</body>
 

@@ -1994,7 +1994,9 @@ License: You must have a valid license purchased only from themeforest(the above
 														<a href="#" class="kt-widget__username">
 																<input id="username_user<%=users._id%>" hidden value="<%= users.username %>">
 															<input id="name_user<%=users._id%>" hidden value="<%= users.TenKH %>">	<%= users.TenKH %>
+															<span hidden id="socket_name"></span>
 														</a>
+
 														<script src="./assets/vendors/general/jquery/dist/jquery.js" type="text/javascript"></script>
 														
 														<span class="kt-widget__desc">
@@ -2033,8 +2035,7 @@ License: You must have a valid license purchased only from themeforest(the above
 																var token = $.cookie("token") ;
 																// condition to create room chat
 																$.post('/condition_create_room',{token:token}).then(user1=>{
-																	console.log(user1.makh.username);
-																	console.log(user2);
+																
 																	if(user1.makh.username == user2)
 																	{
 																	
@@ -2046,33 +2047,18 @@ License: You must have a valid license purchased only from themeforest(the above
 																	{
 																		// name user
 																	var name= $('#name_user<%=users._id%>').val();
+																	var username = $('#username_user<%=users._id%>').val();
+																	$('#socket_name').html('<input id="name_for_socket" value="'+username+'">');
 																	$('.kt-chat__label').html('<a href="#" class="kt-chat__title">'+name+'</a>'+
 																	'<span class="kt-chat__status"><span class="kt-badge kt-badge--dot kt-badge--success"></span> Active</span>');
 																		
 																		// create room
 																		$.post('/create_room_chat', {token:token,user2:user2}).then(data=>{
 																		console.log(data);
-																	$('#reply-btn').click(function(){
-																			// set date time
-																		var now = new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + 
-																					new Date().getDate() + " " + new Date().getHours() + ":" + 
-																					new Date().getMinutes() + ":" + new Date().getSeconds();
-																			// create content and token is a condition to create content
-
-																			if($('#textarea-chat').val()!="")
-																			{
-																				$.post('/create_content',{token:token,
-																								content:$('#textarea-chat').val(),
-																								maconver:data._id, now:now}).then(content=>{
-																								console.log(content);
-																								
-																				})
-																			}
-																		
-																				$('#textarea-chat').val("");
-																			});
+																			$('#room_chat_id').html('<input id="create_room_chat_id" value="'+data._id+'">');
+																
 																			// get content
-																	$.post('/get_content', {maconver:data._id,token:token} ).then(list_content=>{
+																	$.post('/get_content', {maconver:data._id} ).then(list_content=>{
 																					// return aray content 
 																				list_content.forEach(list_content => {
 
@@ -2121,7 +2107,7 @@ License: You must have a valid license purchased only from themeforest(the above
 																						$('.kt-bg-light-brand').remove();
 																						$('.kt-bg-light-success').remove();
 																					})
-																			});
+																	});
 																	
 																})
 																
@@ -2741,6 +2727,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				</a>
 			</div>
 		</div>
+	
 
 		<!-- end::Demo Panel -->
 
@@ -2960,6 +2947,9 @@ License: You must have a valid license purchased only from themeforest(the above
 	<script src="/socket.io/socket.io.js"></script>
 	<script>var socket = io('http://localhost:3000/');</script>
 	<script>
+
+
+
 		// writter
 	socket.on('sv-send-chat-of-me',(chat,date_time)=>{
 			console.log(chat)
@@ -2974,39 +2964,151 @@ License: You must have a valid license purchased only from themeforest(the above
 	})
 
 		// room
-	socket.on('sv-send-chat-to-you',(chat, date_time)=>{
+	socket.on('sv-send-chat-to-you',(chat, date_time,name_another_user,TenKH,user1)=>{
+
 		
-			console.log(chat)
-			$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-bg-light-success">'+
+
+		$('#name_another_user').html("<input id='another_username' value="+user1+" >");
+		var token = $.cookie("token");
+
+		// condition to chat
+		$.post('/find_user_chat',{token:token}).then(login=>{
+			if(login.makh.username==name_another_user)
+			{
+
+				if($('#kt_chat_modal').is(":visible") )
+				{
+							// Room
+				$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-bg-light-success">'+
 										'<div class="kt-chat__user">'+
 											'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
 												'<img src="./assets/media/users/100_12.jpg" alt="image">'+
 											'</span>'+
-											'<a href="#" class="kt-chat__username">Vu</span></a>'+
+											'<a href="#" class="kt-chat__username">'+TenKH+'</span></a>'+
 											'<span class="kt-chat__datetime">'+date_time+'</span>'+
 										'</div>'+
 										'<div class="kt-chat__text">'
 											+chat+
 										'</div>'+
 									'</div><div style="clear:both;"></div>')
+				}
+
+				if($('#kt_chat_modal').is(":hidden"))
+				{
+
+					$('#kt_chat_modal').show();
+
+					// name another
+					$('.kt-chat__label').html('<a href="#" class="kt-chat__title">'+TenKH+'</a>'+
+					'<span class="kt-chat__status"><span class="kt-badge kt-badge--dot kt-badge--success"></span> Active</span>');
+				
+
+					// create room
+				$.post('/create_room_chat_socket', {token:token,user2:user1}).then(data=>{
+					console.log(data._id)
+					$('#room_chat').html('<input id="id_room" value="'+data._id+'">')
+				
+					// get content
+				$.post('/get_content_socket', {maconver:data._id}).then(list_content=>{
+				
+							// return aray content 
+						list_content.forEach(list_content => {
+
+							// moment to find time
+								var time = moment(list_content.Time).fromNow();
+							
+
+							$.post('/your_content_socket',{token:token}).then(login=>{
+								
+
+								// check id to find your content
+
+								if(list_content.makh._id == login.makh._id)
+								{
+										// Writer
+										
+								$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
+										'<div class="kt-chat__user">'+
+										'<span class="kt-chat__datetime">'+time+'</span>'+
+										'<a href="#" class="kt-chat__username">You</span></a>'+
+										'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+										'<img src="./assets/media/users/300_21.jpg" alt="image"></span>'+
+										'</div><div class="kt-chat__text">'
+										+list_content.Content+'</div></div><div style="clear:both;"></div>')
+
+								}
+								else
+								{
+									// Room
+								$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-bg-light-success">'+
+										'<div class="kt-chat__user">'+
+											'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+												'<img src="./assets/media/users/100_12.jpg" alt="image">'+
+											'</span>'+
+											'<a href="#" class="kt-chat__username">'+list_content.makh.TenKH+'</span></a>'+
+											'<span class="kt-chat__datetime">'+time+'</span>'+
+										'</div>'+
+										'<div class="kt-chat__text">'
+											+list_content.Content+
+										'</div>'+
+									'</div><div style="clear:both;"></div>')
+								}
+							})
+						});
+							$('#clean-btn').click(function(){
+								$('.kt-bg-light-brand').remove();
+								$('.kt-bg-light-success').remove();
+								$('#kt_chat_modal').hide();
+							})
+				});
+			
+				})
+				}			
+			}
+		})		
+	
 	})
 
-	
-
 	$('#reply-btn').click(function(){
-
+		var chat = $('#textarea-chat').val();
 		// set date and push to socket
-		if($('#textarea-chat').val()!=""){
-			var now = new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + 
-			new Date().getDate() + " " + new Date().getHours() + ":" + 
-			new Date().getMinutes() + ":" + new Date().getSeconds();
-		socket.emit('client-send-chat',$('#textarea-chat').val(),now);
+		if(chat!=""){
+			var token = $.cookie("token") ;
+			$.post('/find_socket_name',{token:token}).then(login=>{
+				var now = new Date();
+				
+			var name_another_user = $('#name_for_socket').val()|| $('#another_username').val();
+			console.log( $('#name_for_socket').val());
+			console.log(name_another_user);
+			socket.emit('client-send-chat',chat,now,name_another_user,login.makh.TenKH,login.makh.username);
+
+			var id_room;
+			if(!!$('#id_room').val())
+			{
+				
+				id_room = $('#id_room').val();
+			}
+			else
+			{
+				id_room = $('#create_room_chat_id').val();
+			}
+			console.log(id_room);
+				
+				$.post('/create_content_socket',{token:token,
+								content:chat,
+								maconver:id_room, now:now}).then(content=>{console.log(content);});
+								$('#textarea-chat').val("");
+
+			});
 		}
+		
 		
 		
 	});
 </script>
-		
+<div hidden id="name_another_user"></div>
+<div hidden id="room_chat"></div>
+<div hidden id="room_chat_id"></div>		
 		
 		<!--end::Global Theme Bundle -->
 	</body>

@@ -7,15 +7,16 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 </head>
 <body>
-
+	
         <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
 		<a href="/authfb/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
 		<input id="btn" type="button" value="button">
 		<script>
 			
-			var now = new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + 
-			new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + "2";
-			alert(now);
+			var now = new Date();
+			// .getFullYear() + "-" + (new Date().getMonth() +1) + "-" + 
+			// new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + "2";
+			// alert(now);
 	
 			$('#btn').click(function(){
 				$.post('/time', {date:now}).then(result=>{console.log(result)})
