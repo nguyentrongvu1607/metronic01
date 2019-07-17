@@ -1723,11 +1723,11 @@ License: You must have a valid license purchased only from themeforest(the above
 											<!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
 											<span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success">S</span>
 										</div>
-										<div class="kt-user-card__name">
-											Sean Stone
+										<div id="TenKH" class="kt-user-card__name">
+											
 										</div>
 										<div class="kt-user-card__badge">
-											<span class="btn btn-success btn-sm btn-bold btn-font-md">23 messages</span>
+											<span id="count_message" class="btn btn-success btn-sm btn-bold btn-font-md"></span>
 										</div>
 									</div>
 
@@ -5476,35 +5476,42 @@ License: You must have a valid license purchased only from themeforest(the above
 	<script>var socket = io('http://localhost:3000/');</script>
 	<script>
 
-	
 
-		// writter
-	socket.on('sv-send-chat-of-me',(chat,date_time)=>{
+			// writter
+			socket.on('sv-send-chat-of-me',(chat,date_time, Status)=>{
 			console.log(chat)
-			$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
-	'<div class="kt-chat__user">'+
-	'<span class="kt-chat__datetime">'+date_time+'</span>'+
-	'<a href="#" class="kt-chat__username">You</span></a>'+
-	'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
-	'<img src="./assets/media/users/300_21.jpg" alt="image"></span>'+
-'</div><div class="kt-chat__text">'
-	+chat+'</div></div><div style="clear:both;"></div>')
+			if(Status=="Done")
+			{
+				$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
+				'<div class="kt-chat__user">'+
+				'<span class="kt-chat__datetime">'+date_time+'</span>'+
+				'<a href="#" class="kt-chat__username">You</span></a>'+
+				'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
+				'<img src="./assets/media/users/300_21.jpg" alt="image"></span>'+
+				'</div><div class="kt-chat__text">'
+				+chat+'</div></div><div style="clear:both;"></div>')
+			}
+			
 	})
-
+	
 		// room
-	socket.on('sv-send-chat-to-you',(chat,date_time, name_another_user,TenKH,user1)=>{
+		var number = 0;
+	socket.on('sv-send-chat-to-you',(chat,date_time, name_another_user,TenKH,user1, Status)=>{
 		console.log(name_another_user);
+		number++;
 		$('#name_another_user').html("<input id='another_username' value="+user1+" >");
 		var token = $.cookie("token");
-
+	
+		
+		$(document).ready(function(){
 		// condition to chat
-		$.post('/find_user_chat',{token:token}).then(login=>{
+			$.post('/find_user_chat',{token:token}).then(login=>{
 			console.log(login.makh.username);
 			console.log(TenKH);
 			if(login.makh.username==name_another_user)
 			{
-			
-				
+				if(Status=="Done")
+				{
 					// Room
 					if($('#kt_chat_modal').is(":visible"))
 				{
@@ -5525,7 +5532,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				
 				};
 
-				if($('#kt_chat_modal').is(":hidden"))
+					if($('#kt_chat_modal').is(":hidden"))
 				{
 
 				$('#clean-btn').click(function(){
@@ -5602,15 +5609,59 @@ License: You must have a valid license purchased only from themeforest(the above
 				})
 				
 				}
-				
-			
-			
-				
+					
+					console.log($('#totalMessage').val());
+					var total = $('#totalMessage').val();
+					if(!!total)
+					{
+						
+						$('#count_message').html((total*1 + number) + " " + "messages");
+						
+							
+							$('#textarea-chat').mousedown(function(){
+								var number_mes = total*1 + number;
+								console.log(number_mes)
+							if(number_mes > 0)
+							{
+								$.post('/update_status_seen',{maconver:$('#id_room').val(),
+								username:$('#another_username').val()}).then(number=>{
+								console.log(number.number);
+								console.log(number_mes - number.number)
+								if(number.number>0)
+								{
+									if((number_mes - number.number) < 1)
+									{
+									
+										$('#count_message').html( "0 messages");
+									}
+									else 
+									{
+									
+										$('#count_message').html((number_mes-number.number)+ " " + "messages");
+									}
+								}
+									
+								
+								})
+							}
+							
+						})
+		
+					}
+					else
+					{
+						console.log(number)
+						$('#count_message').html(  number + " " + "messages");
+					}
+
+				}
+
+
 			}
 		})		
 	
-	})
-
+		})
+	
 	$('#reply-btn').click(function(){
 			var chat = $('#textarea-chat').val();
 		// set date and push to socket
@@ -5618,15 +5669,21 @@ License: You must have a valid license purchased only from themeforest(the above
 			var token = $.cookie("token") ;
 			$.post('/find_socket_name',{token:token}).then(login=>{
 				var now = new Date();
-			var name_another_user = $('#another_username').val() ;
-			socket.emit('client-send-chat',chat,now,name_another_user,login.makh.TenKH,login.makh.username);
+				var id_room = $('#id_room').val();
+				console.log(id_room);
+				$.post('/create_content_socket',{token:token,
+								content:chat,
+								maconver:id_room, status:"not", now:now}).then(content=>{
+									console.log(content);
+
+								var name_another_user = $('#another_username').val() ;
+								socket.emit('client-send-chat', chat, now, name_another_user,
+										login.makh.TenKH, login.makh.username);
+								});
+				
 
 					
-			var id_room = $('#id_room').val()
-			console.log(id_room);
-			$.post('/create_content_socket',{token:token,
-								content:chat,
-								maconver:id_room, now:now}).then(content=>{console.log(content);});
+			
 		
 
 			$('#textarea-chat').val("");
@@ -5637,10 +5694,72 @@ License: You must have a valid license purchased only from themeforest(the above
 			}
 		
 	});
+
+		
+	})
+
+
+
+
 </script>
 <div hidden id="name_another_user"></div>
 <div hidden id="room_chat"></div>
+<div hidden id="number_mes"></div>
+<script>
+		
+// count message not seen
+$(document).ready(function(){
+			var token = $.cookie("token");
+		$.post('/count_message',{token:token }).then(data=>{
+			var totalMessage = 0;
+					
+					if(!!data.list_conver)
+					{
+						data.list_conver.forEach(list_conver => {
+						if(!!list_conver)
+						{
+							$.post('/find_your_mes',{maconver:list_conver._id}).then(list_content=>{
+							if(!!list_content)
+							{
+								list_content.forEach(list_content => {
+									if(list_content.makh!=data.login.makh._id)
+									{
+										totalMessage ++;
+										
+									}
+									$('#number_mes').html('<input id="totalMessage" type="number" value="'+totalMessage+'">')
+								});
 
+								var number_mes = $('#totalMessage').val();
+								console.log(number_mes);
+								if(!!number_mes)
+								{
+									$('#count_message').html(number_mes + " " + "messages");
+								}
+								else
+								{
+									$('#count_message').html("0 messages");
+								}
+								
+							
+							}
+
+							})
+					
+						}
+							
+					});	
+					
+					}
+				
+					else
+					{
+						$('#count_message').html("0 messages");
+					}
+		})
+	
+})
+</script>
 	</body>
 
 	<!-- end::Body -->

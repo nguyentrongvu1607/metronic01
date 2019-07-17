@@ -31,10 +31,13 @@ var io = socket_io();
 app.io = io;
 io.on('connection',(socket)=>{
   console.log(socket.id)
-  socket.on('client-send-chat',(chat,now,name_another_user,TenKH,user1)=>{
+  socket.on('client-send-chat',(chat, now, name_another_user, TenKH, user1)=>{
+    var Status = "Done";
     var date_time = moment(now).fromNow();
-    socket.emit('sv-send-chat-of-me',chat, date_time)
-    socket.broadcast.emit('sv-send-chat-to-you',chat,date_time, name_another_user,TenKH,user1);
+
+     
+    socket.emit('sv-send-chat-of-me',chat, date_time,Status)
+    socket.broadcast.emit('sv-send-chat-to-you',chat,date_time, name_another_user,TenKH,user1, Status);
     // chat.splice(0, 1);
   })
 })

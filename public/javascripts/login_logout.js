@@ -3,6 +3,7 @@ $.post('/user_name', {token:token}).then(data=>{
 	console.log(data)
 	var name_chat = data.username;
 	$('#username').html(data.username);
+	$('#TenKH').html(data.TenKH);
 })
 
 function signout()

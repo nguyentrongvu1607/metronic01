@@ -7,7 +7,17 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 </head>
 <body>
-	
+		<input type="number" id="aa" value="1">
+		
+		<script>
+			$(document).ready(function(){
+				console.log($('#aa').val());
+			var a =$('#aa').val();
+			$('#a').html(a*1+1);
+			})
+			
+		</script>
+		<div id="a"></div>
         <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
 		<a href="/authfb/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
 		<input id="btn" type="button" value="button">
@@ -23,30 +33,11 @@
 			})
 			
 		</script>
-        		 													<!-- // Writer -->
-																		<!-- $('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">'+
-																					'<div class="kt-chat__user">'+
-																					'<span class="kt-chat__datetime">30 Seconds</span>'+
-																					'<a href="#" class="kt-chat__username">You</span></a>'+
-																					'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
-																					'<img src="./assets/media/users/300_21.jpg" alt="image"></span>'+
-																					'</div><div class="kt-chat__text">'
-																					+chat+'</div></div><div style="clear:both;"></div>')
-																	
-
-																		// room
-																		$('.kt-chat__messages--modal').append('<div class="kt-chat__message kt-bg-light-success">'+
-																					'<div class="kt-chat__user">'+
-																						'<span class="kt-userpic kt-userpic--circle kt-userpic--sm">'+
-																							'<img src="./assets/media/users/100_12.jpg" alt="image">'+
-																						'</span>'+
-																						'<a href="#" class="kt-chat__username">Vu</span></a>'+
-																						'<span class="kt-chat__datetime">2 Hours</span>'+
-																					'</div>'+
-																					'<div class="kt-chat__text">'
-																						+chat+
-																					'</div>'+
-																				'</div><div style="clear:both;"></div>') -->
+		<script>
+			$.post('/test',{username:"nguyena@gmail.com"}).then(user=>{
+				console.log(user);
+			})
+		</script>
 </body>
 
 </html>
